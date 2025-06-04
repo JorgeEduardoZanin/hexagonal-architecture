@@ -1,25 +1,40 @@
-# API CALCULA JUROS BOLETO
+# API Calcula Juros de Boleto
 
-## PROBLEMA:
-**ENQUANTO** usuário da API
+Uma API RESTful que calcula juros de boletos vencidos, seguindo a Arquitetura Hexagonal.  
+A documentação interativa está disponível via Swagger (ver seção **Documentação Swagger** abaixo).
 
-**QUERO** digitar um código de boleto vencido
+## Visão Geral
 
-**E** quero receber o valor do juros.
+Este projeto expõe um endpoint que:
+1. Recebe código de boleto e data de pagamento.
+2. Valida se o boleto é do tipo **XPTO** e se está vencido.
+3. Consulta uma API externa para obter dados adicionais do boleto (data de vencimento, valor original, tipo, etc.).
+4. Calcula juros proporcionais ao atraso (1% ao mês → 0,033% ao dia).
+5. Persiste no banco de dados todas as solicitações e resultados de cálculo.
+6. Retorna ao cliente um JSON com os dados do boleto e o valor final (valor original + juros).
 
+## Documentação Swagger
 
-## Requisitos Funcionais
-- Desenvolver um API
-- Incluir um código de boleto válido
-- O Boleto deve estar vencido
-- Apenas boletos do tipo XPTO podem ser calculados
-- Para receber as informações do boleto, consumir a API de Boletos
-- Em caso de erro, devolver o motivo do erro
-- A definição dos juros de boleto bancário ocorre considerando os dias de atraso, de maneira proporcional.
-    - Taxa de juros de 1% ao mes ou 1 / 30 = 0,033% ao dia
-- O valor final do boleto deve ser:
-  - Valor do boleto +  valor dos juros em atraso
-- Salvar em um **banco de dados** todos os cálculos realizados
+![Swagger UI](./img/swagger-arq-hexagonal.png)  
+**Acesse no navegador:**  
+`http://localhost:8080/swagger-ui/index.html`
+
+---
+
+## Diagrama de Arquitetura Hexagonal
+
+![Diagrama Hexagonal](./img/diagrama-arq-hexagonal.png)  
+Este diagrama ilustra como a Arquitetura Hexagonal (Ports & Adapters) está implementada neste projeto.
+
+## Problema e Requisitos
+
+### Descrição do Problema
+
+> **Enquanto** usuário da API,  
+> **quero** digitar um código de boleto vencido,  
+> **e** receber o valor atualizado com juros.
+
+### Requisitos Funcionais
 
 Request →
 ```json
@@ -38,11 +53,9 @@ Response →
   "tipo": "XPTO|NORMAL"
 }
 ```
-
 <br>
 <br>
 <br>
-
 
 # Ferramentas
 
