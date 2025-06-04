@@ -6,6 +6,6 @@ import spring.hexagonal_architecture.core.domain.CalculatedTicket;
 
 public interface TicketCalculation {
 
-	CalculatedTicket executeTicket(String code, LocalDate dueDate);
+	CalculatedTicket executeTicket(String code, LocalDate paymentDate);
 	
 }

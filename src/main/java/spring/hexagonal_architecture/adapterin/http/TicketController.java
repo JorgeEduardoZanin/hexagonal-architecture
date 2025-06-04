@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import spring.hexagonal_architecture.adapterin.http.dto.request.TicketAdapterInRequest;
 import spring.hexagonal_architecture.adapterin.http.dto.response.TicketAdapterInResponse;
@@ -24,6 +25,7 @@ public class TicketController {
 	}
 	
 	@PostMapping("/calculation")
+	@Operation(summary = "Calcular juros de um boleto")
 	public ResponseEntity<TicketAdapterInResponse> calculateTicket(@Valid @RequestBody TicketAdapterInRequest ticketAdapterInRequest){
 		var calculatedTicket = ticketCalculation.executeTicket(ticketAdapterInRequest.code(), ticketAdapterInRequest.paymentDate());
 		return ResponseEntity.status(HttpStatus.CREATED).body(TicketMapperAdapterIn.toTicketAdapterInResponse(calculatedTicket));
